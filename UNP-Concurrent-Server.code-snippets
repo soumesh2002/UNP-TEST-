@@ -1,0 +1,57 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"Print to console": {
+		"prefix": "ut-server", // concurrent time server
+		"body": [
+			"#include <stdio.h>",
+			"#include <stdlib.h>",
+			"#include <sys/socket.h>",
+			"#include <sys/select.h>",
+			"#include <sys/wait.h>",
+			"#include <netinet/in.h>",
+			"#include <arpa/inet.h>",
+			"#include <unistd.h>",
+			"#include <time.h>",
+			"#include <string.h>",
+			"int main(int argc, char const *argv[]) {",
+			"\tint n;",
+			"\tchar data[201];",
+			"\tpid_t pid;",
+			"\tint net_socket = socket(AF_INET, SOCK_STREAM, 0);\n",
+			"\tstruct sockaddr_in sv_addr, c_addr;",
+			"\tsv_addr.sin_family = AF_INET;",
+			"\tsv_addr.sin_port = htons(2002);",
+			"\tsv_addr.sin_addr.s_addr = inet_addr(argv[1]);\n",
+			"\tbind(net_socket, (struct sockaddr *)&sv_addr, sizeof(sv_addr));\n",
+			"\tlisten(net_socket, 10);",
+			"\ttime_t tick;",
+			"\tchar str[100];",
+			"\tint fd;",
+			"\tint c;",
+			"\twhile (1) {",
+			"\t\tfd = accept(net_socket, (struct sockaddr *)&c_addr, &c);",
+			"\t\tprintf(); // accepted",
+			"\t\tif ((pid = fork()) == 0) {",
+			"\t\t\tclose(net_socket);",
+			"\t\t\twhile(1) {",
+			"\t\t\t\ttick=time(NULL);",
+			"\t\t\t\tsnprintf(str, sizeof(str), '%s', ctime(&tick));",
+			"\t\t\t\twrite(fd, str, strlen(str));",
+			"\t\t\t}",
+			"\t\t}",
+			"\t\telse {",
+			"\t\t\tclose(fd);",
+			"\t\t}",
+			"\t}",
+			"\treturn 0;",
+			"}"
+		],
+		"description": "Concurrent Time Server"
+	}
+}
